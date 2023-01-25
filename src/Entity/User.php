@@ -27,7 +27,7 @@ class User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $userLastName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $userEmail = null;
 
     #[ORM\Column(length: 255, nullable: true)]
