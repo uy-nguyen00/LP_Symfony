@@ -36,9 +36,13 @@ class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: reservation::class, orphanRemoval: true)]
     private Collection $reservations;
 
+    #[ORM\ManyToMany(targetEntity: artist::class)]
+    private Collection $favoriteArtists;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->favoriteArtists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +148,30 @@ class User
                 $reservation->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, artist>
+     */
+    public function getFavoriteArtists(): Collection
+    {
+        return $this->favoriteArtists;
+    }
+
+    public function addFavoriteArtist(artist $favoriteArtist): self
+    {
+        if (!$this->favoriteArtists->contains($favoriteArtist)) {
+            $this->favoriteArtists->add($favoriteArtist);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteArtist(artist $favoriteArtist): self
+    {
+        $this->favoriteArtists->removeElement($favoriteArtist);
 
         return $this;
     }
