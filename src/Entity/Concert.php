@@ -22,7 +22,7 @@ class Concert
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $concertDate = null;
 
-    #[ORM\ManyToMany(targetEntity: band::class, inversedBy: 'concerts')]
+    #[ORM\ManyToMany(targetEntity: Band::class, inversedBy: 'concerts')]
     private Collection $bands;
 
     #[ORM\OneToMany(mappedBy: 'concert', targetEntity: Reservation::class)]
@@ -32,7 +32,7 @@ class Concert
     #[ORM\JoinColumn(nullable: false)]
     private ?ConcertHall $concertHall = null;
 
-    #[ORM\ManyToMany(targetEntity: artist::class, inversedBy: 'concerts')]
+    #[ORM\ManyToMany(targetEntity: Artist::class, inversedBy: 'concerts')]
     private Collection $artists;
 
     public function __construct()
@@ -72,14 +72,14 @@ class Concert
     }
 
     /**
-     * @return Collection<int, band>
+     * @return Collection<int, Band>
      */
     public function getBands(): Collection
     {
         return $this->bands;
     }
 
-    public function addBand(band $band): self
+    public function addBand(Band $band): self
     {
         if (!$this->bands->contains($band)) {
             $this->bands->add($band);
@@ -88,7 +88,7 @@ class Concert
         return $this;
     }
 
-    public function removeBand(band $band): self
+    public function removeBand(Band $band): self
     {
         $this->bands->removeElement($band);
 
@@ -138,14 +138,14 @@ class Concert
     }
 
     /**
-     * @return Collection<int, artist>
+     * @return Collection<int, Artist>
      */
     public function getArtists(): Collection
     {
         return $this->artists;
     }
 
-    public function addArtist(artist $artist): self
+    public function addArtist(Artist $artist): self
     {
         if (!$this->artists->contains($artist)) {
             $this->artists->add($artist);
@@ -154,7 +154,7 @@ class Concert
         return $this;
     }
 
-    public function removeArtist(artist $artist): self
+    public function removeArtist(Artist $artist): self
     {
         $this->artists->removeElement($artist);
 

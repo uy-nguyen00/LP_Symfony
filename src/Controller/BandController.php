@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Entity\Band;
-use App\Repository\BandRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
