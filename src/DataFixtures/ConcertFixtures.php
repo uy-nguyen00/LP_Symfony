@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Concert;
+use App\Entity\Reservation;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -16,7 +17,8 @@ class ConcertFixtures extends Fixture implements DependentFixtureInterface
         $concert1 = new Concert();
         $concert1->setConcertName('World Tour')
             ->setConcertHall($this->getReference(ConcertHallFixtures::THE_GRAND_HALL))
-            ->setConcertDate(new \DateTime());
+            ->setConcertDate(new \DateTime())
+            ->addArtist($this->getReference(ArtistFixtures::ARTIST_SEAN_LEW));
         $manager->persist($concert1);
 
         $manager->flush();
@@ -27,7 +29,9 @@ class ConcertFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            ConcertHallFixtures::class
+            ConcertHallFixtures::class,
+            ArtistFixtures::class,
+            BandFixtures::class,
         ];
     }
 }

@@ -9,6 +9,8 @@ use Doctrine\Persistence\ObjectManager;
 
 class ReservationFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const RES_0001 = 'res-0001';
+
     public function load(ObjectManager $manager): void
     {
         $res1 = new Reservation();
@@ -20,6 +22,7 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($res1);
 
         $manager->flush();
+        $this->addReference(self::RES_0001, $res1);
     }
 
     public function getDependencies(): array
