@@ -24,9 +24,6 @@ class Artist
     #[ORM\ManyToOne(inversedBy: 'artistMembers')]
     private ?Band $band = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?picture $picture = null;
-
     #[ORM\ManyToMany(targetEntity: Concert::class, mappedBy: 'artists')]
     private Collection $concerts;
 
@@ -72,18 +69,6 @@ class Artist
     public function setBand(?Band $band): self
     {
         $this->band = $band;
-
-        return $this;
-    }
-
-    public function getPicture(): ?picture
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(?picture $picture): self
-    {
-        $this->picture = $picture;
 
         return $this;
     }

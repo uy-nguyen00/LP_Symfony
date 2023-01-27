@@ -18,10 +18,7 @@ class Band
     #[ORM\Column(length: 255)]
     private ?string $bandName = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?picture $picture = null;
-
-    #[ORM\OneToMany(mappedBy: 'band', targetEntity: artist::class)]
+    #[ORM\OneToMany(mappedBy: 'band', targetEntity: Artist::class)]
     private Collection $artistMembers;
 
     #[ORM\ManyToMany(targetEntity: Concert::class, mappedBy: 'bands')]
@@ -50,27 +47,15 @@ class Band
         return $this;
     }
 
-    public function getPicture(): ?picture
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(?picture $picture): self
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, artist>
+     * @return Collection<int, Artist>
      */
     public function getArtistMembers(): Collection
     {
         return $this->artistMembers;
     }
 
-    public function addArtistMember(artist $artistMember): self
+    public function addArtistMember(Artist $artistMember): self
     {
         if (!$this->artistMembers->contains($artistMember)) {
             $this->artistMembers->add($artistMember);
@@ -80,7 +65,7 @@ class Band
         return $this;
     }
 
-    public function removeArtistMember(artist $artistMember): self
+    public function removeArtistMember(Artist $artistMember): self
     {
         if ($this->artistMembers->removeElement($artistMember)) {
             // set the owning side to null (unless already changed)
