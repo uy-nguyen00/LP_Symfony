@@ -27,6 +27,9 @@ class Artist
     #[ORM\ManyToMany(targetEntity: Concert::class, mappedBy: 'artists')]
     private Collection $concerts;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
+
     public function __construct()
     {
         $this->concerts = new ArrayCollection();
@@ -96,6 +99,18 @@ class Artist
         if ($this->concerts->removeElement($concert)) {
             $concert->removeArtist($this);
         }
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }

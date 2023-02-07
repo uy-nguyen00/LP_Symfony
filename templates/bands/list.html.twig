@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} All The Crews {% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% for band in bands %}
+            <p>
+                <a href="{{ path('band_show', {id: band.getId()}) }}">
+                    {{ band.getBandName() }}
+                </a>
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

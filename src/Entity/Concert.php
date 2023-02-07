@@ -25,15 +25,15 @@ class Concert
     #[ORM\ManyToMany(targetEntity: Band::class, inversedBy: 'concerts')]
     private Collection $bands;
 
+    #[ORM\ManyToMany(targetEntity: Artist::class, inversedBy: 'concerts')]
+    private Collection $artists;
+
     #[ORM\OneToMany(mappedBy: 'concert', targetEntity: Reservation::class)]
     private Collection $reservations;
 
     #[ORM\ManyToOne(inversedBy: 'concerts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?ConcertHall $concertHall = null;
-
-    #[ORM\ManyToMany(targetEntity: Artist::class, inversedBy: 'concerts')]
-    private Collection $artists;
 
     public function __construct()
     {

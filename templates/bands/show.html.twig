@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ band.getBandName() }} {% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% for artist in band.getArtistMembers() %}
+            <img src="{{ asset('images/artists/' ~ artist.getPicture()) }}" class="img-thumbnail"
+                 alt="{{ artist.getArtistTag }}" style="width: 10rem">
+            <p>{{ artist.getArtistName() }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

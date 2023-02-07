@@ -18,10 +18,10 @@ class BandController extends AbstractController
             throw $this->createNotFoundException('There is no band at the moment');
         }
 
-        return $this->render('band/list.html.twig', ['bands' => $bands]);
+        return $this->render('bands/list.html.twig', ['bands' => $bands]);
     }
 
-    #[Route('/band/{id}', name: 'band_show', methods: ['GET', 'HEAD'])]
+    #[Route('/bands/{id}', name: 'band_show', methods: ['GET', 'HEAD'])]
     public function show(ManagerRegistry $doctrine, int $id): Response
     {
         $band = $doctrine->getRepository(Band::class)->find($id);
@@ -30,6 +30,6 @@ class BandController extends AbstractController
             throw $this->createNotFoundException("There is no band with the id $id");
         }
 
-        return $this->render('band/show.html.twig', ['band' => $band]);
+        return $this->render('bands/show.html.twig', ['band' => $band]);
     }
 }

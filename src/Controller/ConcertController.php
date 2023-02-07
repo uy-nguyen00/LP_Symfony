@@ -18,6 +18,18 @@ class ConcertController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             throw $this->createNotFoundException('There is no concert at the moment');
         }
 
-        return $this->render('concert/list.html.twig', ['concerts' => $concerts]);
+        return $this->render('concerts/list.html.twig', ['concerts' => $concerts]);
+    }
+
+    #[Route('/concerts/{id}', name: 'concert_show', methods: ['GET', 'HEAD'])]
+    public function show(ManagerRegistry $doctrine, int $id): Response
+    {
+        $concert = $doctrine->getRepository(Concert::class)->find($id);
+
+        if (!$concert) {
+            throw $this->createNotFoundException("There is no concert with the id $id");
+        }
+
+        return $this->render('concerts/show.html.twig', ['concert' => $concert]);
     }
 }
