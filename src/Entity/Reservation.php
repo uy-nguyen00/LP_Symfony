@@ -21,7 +21,7 @@ class Reservation
     private ?\DateTimeInterface $reservationDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]

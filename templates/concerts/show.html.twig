@@ -1,24 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ concert.getConcertName() }} {% endblock %}
+{% block title %} {{ concert.concertName }} {% endblock %}
 
 {% block body %}
     <div class="container">
         <h3>Location</h3>
-        <p>{{ concert.getConcertHall().getConcertHallName() }}</p>
+        <p>{{ concert.getConcertHall().concertHallName }}</p>
 
         <h3>Crews</h3>
-        {% for band in concert.getBands() %}
-            <img src="{{ asset('images/bands/' ~ band.getPicture()) }}" class="img-thumbnail"
-                 alt="{{ band.getBandName() }}" style="width: 20rem">
-            <a href="{{ path('band_show', {id: band.getId()}) }}">{{ band.getBandName() }}</a>
+        {% for band in concert.bands %}
+            <div>
+                <img src="{{ asset('images/bands/' ~ band.getPicture()) }}" class="img-thumbnail"
+                     alt="{{ band.getBandName() }}" style="width: 20rem">
+                <a href="{{ path('band_show', {id: band.getId()}) }}">{{ band.getBandName() }}</a>
+            </div>
         {% endfor %}
 
         <h3>Dancers</h3>
-        {% for artist in concert.getArtists() %}
-            <img src="{{ asset('images/artists/' ~ artist.getPicture()) }}" class="img-thumbnail"
-                 alt="{{ artist.getArtistTag }}" style="width: 10rem">
-            <p>{{ artist.getArtistName() }}</p>
+        {% for artist in concert.artists %}
+            <div>
+                <img src="{{ asset('images/artists/' ~ artist.getPicture()) }}" class="img-thumbnail"
+                     alt="{{ artist.getArtistTag }}" style="width: 10rem">
+                <p>{{ artist.getArtistName() }}</p>
+            </div>
         {% endfor %}
+
+        <a class="btn btn-danger" href="{{ path('concert_delete', {id: concert.id}) }}" role="button">
+            Remove
+        </a>
+
+        <a class="btn btn-warning" href="{{ path('concert_update', {id: concert.id}) }}" role="button">
+            Update
+        </a>
     </div>
 {% endblock %}

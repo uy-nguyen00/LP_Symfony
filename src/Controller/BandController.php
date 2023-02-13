@@ -21,7 +21,7 @@ class BandController extends AbstractController
         return $this->render('bands/list.html.twig', ['bands' => $bands]);
     }
 
-    #[Route('/bands/{id}', name: 'band_show', methods: ['GET', 'HEAD'])]
+    #[Route('/band/{id}', name: 'band_show', methods: ['GET', 'HEAD'])]
     public function show(ManagerRegistry $doctrine, int $id): Response
     {
         $band = $doctrine->getRepository(Band::class)->find($id);

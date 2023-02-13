@@ -5,11 +5,17 @@
 {% block body %}
     <div class="container">
         {% for concert in concerts %}
-            <p>
+            <div>
                 <a href="{{ path('concert_show' , {id: concert.getId()}) }}">
                     {{ concert.getConcertName() }}
                 </a>
-            </p>
+            </div>
         {% endfor %}
+
+        <div>
+            <a href="{{ path('concert_create') }}">
+                Create new concert
+            </a>
+        </div>
     </div>
 {% endblock %}

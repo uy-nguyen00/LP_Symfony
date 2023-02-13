@@ -35,6 +35,9 @@ class Concert
     #[ORM\JoinColumn(nullable: false)]
     private ?ConcertHall $concertHall = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
     public function __construct()
     {
         $this->bands = new ArrayCollection();
@@ -157,6 +160,18 @@ class Concert
     public function removeArtist(Artist $artist): self
     {
         $this->artists->removeElement($artist);
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
