@@ -3,176 +3,99 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $pseudo = null;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $username = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $role = null;
+    #[ORM\Column]
+    private array $roles = [];
 
-    #[ORM\Column(length: 255)]
-    private ?string $userName = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $userLastName = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $userEmail = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $userAddress = null;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: reservation::class, orphanRemoval: true)]
-    private Collection $reservations;
-
-    #[ORM\ManyToMany(targetEntity: artist::class)]
-    private Collection $favoriteArtists;
-
-    public function __construct()
-    {
-        $this->reservations = new ArrayCollection();
-        $this->favoriteArtists = new ArrayCollection();
-    }
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPseudo(): ?string
+    public function getUsername(): ?string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUsername(string $username): self
     {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(string $role): self
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    public function getUserName(): ?string
-    {
-        return $this->userName;
-    }
-
-    public function setUserName(string $userName): self
-    {
-        $this->userName = $userName;
-
-        return $this;
-    }
-
-    public function getUserLastName(): ?string
-    {
-        return $this->userLastName;
-    }
-
-    public function setUserLastName(?string $userLastName): self
-    {
-        $this->userLastName = $userLastName;
-
-        return $this;
-    }
-
-    public function getUserEmail(): ?string
-    {
-        return $this->userEmail;
-    }
-
-    public function setUserEmail(string $userEmail): self
-    {
-        $this->userEmail = $userEmail;
-
-        return $this;
-    }
-
-    public function getUserAddress(): ?string
-    {
-        return $this->userAddress;
-    }
-
-    public function setUserAddress(?string $userAddress): self
-    {
-        $this->userAddress = $userAddress;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, reservation>
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
      */
-    public function getReservations(): Collection
+    public function getUserIdentifier(): string
     {
-        return $this->reservations;
+        return (string) $this->username;
     }
 
-    public function addReservation(reservation $reservation): self
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations->add($reservation);
-            $reservation->setUser($this);
-        }
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
-        return $this;
+        return array_unique($roles);
     }
 
-    public function removeReservation(reservation $reservation): self
+    public function setRoles(array $roles): self
     {
-        if ($this->reservations->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
-            if ($reservation->getUser() === $this) {
-                $reservation->setUser(null);
-            }
-        }
+        $this->roles = $roles;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, artist>
+     * @see PasswordAuthenticatedUserInterface
      */
-    public function getFavoriteArtists(): Collection
+    public function getPassword(): string
     {
-        return $this->favoriteArtists;
+        return $this->password;
     }
 
-    public function addFavoriteArtist(artist $favoriteArtist): self
+    public function setPassword(string $password): self
     {
-        if (!$this->favoriteArtists->contains($favoriteArtist)) {
-            $this->favoriteArtists->add($favoriteArtist);
-        }
+        $this->password = $password;
 
         return $this;
     }
 
-    public function removeFavoriteArtist(artist $favoriteArtist): self
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
     {
-        $this->favoriteArtists->removeElement($favoriteArtist);
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
