@@ -4,10 +4,13 @@
 
 {% block body %}
     <div class="container">
+        <h2>All Crews</h2>
         {% for band in bands %}
             <p>
-                <a href="{{ path('band_show', {id: band.getId()}) }}">
-                    {{ band.getBandName() }}
+                <a href="{{ path('band_show', {id: band.id}) }}">
+                    <img src="{{ asset('images/bands/' ~ band.picture) }}" class="img-thumbnail"
+                         alt="{{ band.bandName }}" style="width: 20rem">
+                    {{ band.bandName }}
                 </a>
             </p>
         {% endfor %}

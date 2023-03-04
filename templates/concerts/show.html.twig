@@ -5,23 +5,25 @@
 {% block body %}
     <div class="container">
         <h3>Location</h3>
-        <p>{{ concert.getConcertHall().concertHallName }}</p>
+        <p>{{ concert.concertHall.concertHallName }}</p>
 
         <h3>Crews</h3>
         {% for band in concert.bands %}
             <div>
-                <img src="{{ asset('images/bands/' ~ band.getPicture()) }}" class="img-thumbnail"
-                     alt="{{ band.getBandName() }}" style="width: 20rem">
-                <a href="{{ path('band_show', {id: band.getId()}) }}">{{ band.getBandName() }}</a>
+                <img src="{{ asset('images/bands/' ~ band.picture) }}" class="img-thumbnail"
+                     alt="{{ band.bandName }}" style="width: 20rem">
+                <a href="{{ path('band_show', {id: band.id}) }}">
+                    {{ band.bandName }}
+                </a>
             </div>
         {% endfor %}
 
         <h3>Dancers</h3>
         {% for artist in concert.artists %}
             <div>
-                <img src="{{ asset('images/artists/' ~ artist.getPicture()) }}" class="img-thumbnail"
-                     alt="{{ artist.getArtistTag }}" style="width: 10rem">
-                <p>{{ artist.getArtistName() }}</p>
+                <img src="{{ asset('images/artists/' ~ artist.picture) }}" class="img-thumbnail"
+                     alt="{{ artist.artistTag }}" style="width: 10rem">
+                <p>{{ artist.artistName }}</p>
             </div>
         {% endfor %}
 
