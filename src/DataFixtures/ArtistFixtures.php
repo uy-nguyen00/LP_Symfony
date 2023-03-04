@@ -16,17 +16,20 @@ class ArtistFixtures extends Fixture
     {
         $artist1 = new Artist();
         $artist1->setArtistName('Sean Lew')
-            ->setArtistTag('#seanlew');
+            ->setArtistTag('#seanlew')
+            ->setPicture('seanlew.jpeg');
         $manager->persist($artist1);
 
         $artist2 = new Artist();
         $artist2->setArtistName('Anthony Lee')
-            ->setArtistTag('#anthonylee');
+            ->setArtistTag('#anthonylee')
+            ->setPicture('anthonylee.jpeg');
         $manager->persist($artist2);
 
         $artist3 = new Artist();
         $artist3->setArtistName('Bam Martin')
-            ->setArtistTag('#bammartin');
+            ->setArtistTag('#bammartin')
+            ->setPicture('bammartin.jpeg');
         $manager->persist($artist3);
 
         $manager->flush();
