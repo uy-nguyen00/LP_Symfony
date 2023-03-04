@@ -10,15 +10,16 @@ use Doctrine\Persistence\ObjectManager;
 
 class ConcertFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const WORLD_TOUR = 'world-tour';
+    public const WORLD_TOUR = 'world-of-dance';
 
     public function load(ObjectManager $manager): void
     {
         $concert1 = new Concert();
-        $concert1->setConcertName('World Tour')
+        $concert1->setConcertName('World Of Dance 2023')
             ->setConcertHall($this->getReference(ConcertHallFixtures::THE_GRAND_HALL))
             ->setConcertDate(new \DateTime())
-            ->addArtist($this->getReference(ArtistFixtures::ARTIST_SEAN_LEW));
+            ->addArtist($this->getReference(ArtistFixtures::ARTIST_SEAN_LEW))
+            ;
         $manager->persist($concert1);
 
         $manager->flush();
