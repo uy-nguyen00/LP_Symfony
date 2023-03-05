@@ -1,0 +1,12 @@
+{% extends '../../../base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h3>Access denied</h3>
+
+        <p>
+            You don't have access to this action. Please contact your admin for more information or
+            <a href="{{ path('home_index') }}">return to the homepage</a>.
+        </p>
+    </div>
+{% endblock %}

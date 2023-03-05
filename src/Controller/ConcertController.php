@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Concert;
 use App\Form\ConcertType;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,6 +40,8 @@ class ConcertController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     #[Route('/concert/create', name: 'concert_create')]
     public function create(ManagerRegistry $doctrine, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         $concert = new Concert();
         return $this->handleForm($concert, $request, $doctrine);
     }
@@ -50,9 +53,11 @@ class ConcertController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
      * @param int $id
      * @return Response
      */
-    #[Route('/concert/delete/{id}', name: 'concert_delete')]
+    #[Route('concert/delete/{id}', name: 'concert_delete')]
     public function delete(ManagerRegistry $doctrine, int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         /** @var Concert $concert */
         $concert = $doctrine->getRepository(Concert::class)->find($id);
         $concert->setStatus('canceled');
@@ -64,8 +69,10 @@ class ConcertController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     }
 
     #[Route('concert/update/{id}', name: 'concert_update')]
-    public function update(ManagerRegistry $doctrine, int $id, Request $request)
+    public function update(ManagerRegistry $doctrine, int $id, Request $request): RedirectResponse|Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
         /** @var Concert $concert */
         $concert = $doctrine->getRepository(Concert::class)->find($id);
         return $this->handleForm($concert, $request, $doctrine);
@@ -75,9 +82,9 @@ class ConcertController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
      * @param Concert $concert
      * @param Request $request
      * @param ManagerRegistry $doctrine
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
-    private function handleForm(Concert $concert, Request $request, ManagerRegistry $doctrine): Response|\Symfony\Component\HttpFoundation\RedirectResponse
+    private function handleForm(Concert $concert, Request $request, ManagerRegistry $doctrine): Response|RedirectResponse
     {
         $form = $this->createForm(ConcertType::class, $concert);
         $form->handleRequest($request);

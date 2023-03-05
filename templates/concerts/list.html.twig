@@ -12,10 +12,10 @@
             </div>
         {% endfor %}
 
-        <div>
+        {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('concert_create') }}">
                 Create new concert
             </a>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}

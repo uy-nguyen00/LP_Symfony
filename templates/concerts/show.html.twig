@@ -27,12 +27,14 @@
             </div>
         {% endfor %}
 
-        <a class="btn btn-danger" href="{{ path('concert_delete', {id: concert.id}) }}" role="button">
-            Remove
-        </a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-danger" href="{{ path('concert_delete', {id: concert.id}) }}" role="button">
+                Remove
+            </a>
 
-        <a class="btn btn-warning" href="{{ path('concert_update', {id: concert.id}) }}" role="button">
-            Update
-        </a>
+            <a class="btn btn-warning" href="{{ path('concert_update', {id: concert.id}) }}" role="button">
+                Update
+            </a>
+        {% endif %}
     </div>
 {% endblock %}
