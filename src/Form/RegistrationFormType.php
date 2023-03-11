@@ -43,6 +43,12 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('firstName', null, [
+                'label' => 'First name (Optional)'
+            ])
+            ->add('lastName', null, [
+                'label' => 'Last name (Optional)'
+            ])
         ;
     }
 
