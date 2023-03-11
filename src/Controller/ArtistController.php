@@ -5,12 +5,10 @@ namespace App\Controller;
 use App\Entity\Artist;
 use App\Form\ArtistType;
 use App\Repository\ArtistRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/artist')]
 class ArtistController extends StandardController
@@ -23,6 +21,7 @@ class ArtistController extends StandardController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_artist_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ArtistRepository $artistRepository): Response
     {
@@ -53,6 +52,7 @@ class ArtistController extends StandardController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'app_artist_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Artist $artist, ArtistRepository $artistRepository): Response
     {
@@ -74,6 +74,7 @@ class ArtistController extends StandardController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_artist_delete', methods: ['POST'])]
     public function delete(Request $request, Artist $artist, ArtistRepository $artistRepository): Response
     {

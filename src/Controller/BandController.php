@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/band')]
 class BandController extends StandardController
@@ -21,6 +22,7 @@ class BandController extends StandardController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_band_new', methods: ['GET', 'POST'])]
     public function new(Request $request, BandRepository $bandRepository): Response
     {
@@ -51,6 +53,7 @@ class BandController extends StandardController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'app_band_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Band $band, BandRepository $bandRepository): Response
     {
@@ -72,6 +75,7 @@ class BandController extends StandardController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'app_band_delete', methods: ['POST'])]
     public function delete(Request $request, Band $band, BandRepository $bandRepository): Response
     {

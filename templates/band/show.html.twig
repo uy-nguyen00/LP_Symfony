@@ -26,22 +26,25 @@
             <tr>
                 <th>Members</th>
                 <td>
-                {% for artist in band.artistMembers %}
-                    <a href="{{ path('app_artist_show', {'id': artist.id}) }}">
-                        <img src="{{ asset('images/artists/' ~ artist.picture ?? 'anonymous.jpg') }}" class="img-thumbnail"
-                             alt="{{ artist.artistTag }}" style="width: 10rem">
-                        <p>{{ artist.artistName }}</p>
-                    </a>
-                {% endfor %}
+                    {% for artist in band.artistMembers %}
+                        <a href="{{ path('app_artist_show', {'id': artist.id}) }}">
+                            <img src="{{ asset('images/artists/' ~ artist.picture ?? 'anonymous.jpg') }}"
+                                 class="img-thumbnail"
+                                 alt="{{ artist.artistTag }}" style="width: 10rem">
+                            <p>{{ artist.artistName }}</p>
+                        </a>
+                    {% endfor %}
                 </td>
             </tr>
             </tbody>
         </table>
 
-        <a href="{{ path('app_band_index') }}">back to list</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_band_index') }}">back to list</a>
 
-        <a href="{{ path('app_band_edit', {'id': band.id}) }}">edit</a>
+            <a href="{{ path('app_band_edit', {'id': band.id}) }}">edit</a>
 
-        {{ include('band/_delete_form.html.twig') }}
+            {{ include('band/_delete_form.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}
