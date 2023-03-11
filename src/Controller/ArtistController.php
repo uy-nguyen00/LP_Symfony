@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/artist')]
-class ArtistController extends AbstractController
+class ArtistController extends StandardController
 {
     #[Route('/', name: 'app_artist_index', methods: ['GET'])]
     public function index(ArtistRepository $artistRepository): Response
@@ -34,8 +34,6 @@ class ArtistController extends AbstractController
             if ($pictureName = $this->savePictureFile($form)) {
                 $artist->setPicture($pictureName);
             }
-
-            $artist->setPicture($pictureName);
             $artistRepository->save($artist, true);
 
             return $this->redirectToRoute('app_artist_index', [], Response::HTTP_SEE_OTHER);
@@ -67,7 +65,6 @@ class ArtistController extends AbstractController
             }
             $artistRepository->save($artist, true);
 
-            $this->addFlash('success', 'Artist updated successfully!');
             return $this->redirectToRoute('app_artist_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -85,20 +82,5 @@ class ArtistController extends AbstractController
         }
 
         return $this->redirectToRoute('app_artist_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    private function savePictureFile(FormInterface $form): string|bool
-    {
-        /** @var UploadedFile $uploadedFile */
-        $uploadedFile = $form['pictureFile']->getData();
-
-        if ($uploadedFile) {
-            $destinationFolder = $this->getParameter('kernel.project_dir') . '/public/images/artists';
-            $pictureName = uniqid() . '.' . $uploadedFile->guessExtension();
-            $uploadedFile->move($destinationFolder, $pictureName);
-
-            return $pictureName;
-        }
-        return false;
     }
 }

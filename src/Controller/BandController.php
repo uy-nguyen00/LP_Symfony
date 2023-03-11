@@ -1,35 +1,84 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Band;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Form\BandType;
+use App\Repository\BandRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BandController extends AbstractController
+#[Route('/band')]
+class BandController extends StandardController
 {
-    #[Route('/bands', name: 'bands_list', methods: ['GET'])]
-    public function list(ManagerRegistry $doctrine): Response
+    #[Route('/', name: 'app_band_index', methods: ['GET'])]
+    public function index(BandRepository $bandRepository): Response
     {
-        $bands = $doctrine->getRepository(Band::class)->findAll();
-
-        if (!$bands) {
-            throw $this->createNotFoundException('There is no band at the moment');
-        }
-
-        return $this->render('bands/list.html.twig', ['bands' => $bands]);
+        return $this->render('band/index.html.twig', [
+            'bands' => $bandRepository->findAll(),
+        ]);
     }
 
-    #[Route('/band/{id}', name: 'band_show', methods: ['GET', 'HEAD'])]
-    public function show(ManagerRegistry $doctrine, int $id): Response
+    #[Route('/new', name: 'app_band_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, BandRepository $bandRepository): Response
     {
-        $band = $doctrine->getRepository(Band::class)->find($id);
+        $band = new Band();
+        $form = $this->createForm(BandType::class, $band);
+        $form->handleRequest($request);
 
-        if (!$band) {
-            throw $this->createNotFoundException("There is no band with the id $id");
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($pictureName = $this->savePictureFile($form)) {
+                $band->setPicture($pictureName);
+            }
+            $bandRepository->save($band, true);
+
+            return $this->redirectToRoute('app_band_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('bands/show.html.twig', ['band' => $band]);
+        return $this->renderForm('band/new.html.twig', [
+            'band' => $band,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_band_show', methods: ['GET'])]
+    public function show(Band $band): Response
+    {
+        return $this->render('band/show.html.twig', [
+            'band' => $band,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_band_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Band $band, BandRepository $bandRepository): Response
+    {
+        $form = $this->createForm(BandType::class, $band);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($pictureName = $this->savePictureFile($form)) {
+                $band->setPicture($pictureName);
+            }
+            $bandRepository->save($band, true);
+
+            return $this->redirectToRoute('app_band_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('band/edit.html.twig', [
+            'band' => $band,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_band_delete', methods: ['POST'])]
+    public function delete(Request $request, Band $band, BandRepository $bandRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$band->getId(), $request->request->get('_token'))) {
+            $bandRepository->remove($band, true);
+        }
+
+        return $this->redirectToRoute('app_band_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -9,7 +9,8 @@
             <div class="navbar-nav">
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
                 <a class="nav-link" href="{{ path('concert_list') }}">Concerts</a>
-                <a class="nav-link" href="{{ path('bands_list') }}">Crews</a>
+                <a class="nav-link" href="{{ path('app_band_index') }}">Crews</a>
+                <a class="nav-link" href="{{ path('app_artist_index') }}">Artists</a>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <a class="nav-link" href="{{ path('app_logout') }}">Log Out</a>
                 {% else %}

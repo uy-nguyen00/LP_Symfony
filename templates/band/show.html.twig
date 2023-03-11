@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Band{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Band</h1>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ band.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ band.bandName }}</td>
+            </tr>
+            <tr>
+                <th>Picture</th>
+                <td>
+                    <img src="{{ asset('images/bands/' ~ band.picture) }}" class="card-img"
+                         alt="{{ band.picture }}" style="width: 10rem">
+                </td>
+            </tr>
+            <tr>
+                <th>Members</th>
+                <td>
+                {% for artist in band.artistMembers %}
+                    <a href="{{ path('app_artist_show', {'id': artist.id}) }}">
+                        <img src="{{ asset('images/artists/' ~ artist.picture) }}" class="img-thumbnail"
+                             alt="{{ artist.artistTag }}" style="width: 10rem">
+                        <p>{{ artist.artistName }}</p>
+                    </a>
+                {% endfor %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_band_index') }}">back to list</a>
+
+        <a href="{{ path('app_band_edit', {'id': band.id}) }}">edit</a>
+
+        {{ include('band/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

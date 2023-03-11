@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crews{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Crews</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Crew</th>
+                <th>Picture</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for band in bands %}
+                <tr>
+                    <td>{{ band.id }}</td>
+                    <td>{{ band.bandName }}</td>
+                    <td>
+                        <img src="{{ asset('images/bands/' ~ band.picture) }}" class="card-img"
+                             alt="{{ band.picture }}" style="width: 10rem">
+                    </td>
+                    <td>
+                        <a href="{{ path('app_band_show', {'id': band.id}) }}">show</a>
+                        <a href="{{ path('app_band_edit', {'id': band.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_band_new') }}">Create new</a>
+    </div>
+{% endblock %}
