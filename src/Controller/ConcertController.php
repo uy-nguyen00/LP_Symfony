@@ -88,6 +88,7 @@ class ConcertController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     {
         $form = $this->createForm(ConcertType::class, $concert);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $concert = $form->getData();
             $entityManager = $doctrine->getManager();
@@ -95,6 +96,7 @@ class ConcertController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
             $entityManager->flush();
             return $this->redirectToRoute('concert_list');
         }
+
         return $this->render('concerts/new.html.twig', ['form' => $form]);
     }
 }

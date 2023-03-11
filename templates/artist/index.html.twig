@@ -23,9 +23,10 @@
                     <td>{{ artist.id }}</td>
                     <td>{{ artist.artistTag }}</td>
                     <td>{{ artist.artistName }}</td>
-                    <td>{{ artist.band.bandName }}</td>
+                    <td>{{ artist.band.bandName ?? '' }}</td>
                     <td>
-                        <img src="{{ asset('images/artists/' ~ artist.picture) }}" class="img-thumbnail"
+                        <img src="{{ asset('images/artists/' ~ artist.picture ?? 'anonymous.jpg') }}"
+                             class="img-thumbnail"
                              alt="{{ artist.artistTag }}" style="width: 10rem">
                     </td>
                     <td>

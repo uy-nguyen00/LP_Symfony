@@ -21,7 +21,7 @@
                     <td>{{ band.id }}</td>
                     <td>{{ band.bandName }}</td>
                     <td>
-                        <img src="{{ asset('images/bands/' ~ band.picture) }}" class="card-img"
+                        <img src="{{ asset('images/bands/' ~ band.picture ?? 'anonymous.jpg') }}" class="card-img"
                              alt="{{ band.picture }}" style="width: 10rem">
                     </td>
                     <td>

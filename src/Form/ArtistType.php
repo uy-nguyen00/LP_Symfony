@@ -20,7 +20,9 @@ class ArtistType extends AbstractType
             ->add('band', EntityType::class, [
                 'class' => Band::class,
                 'label' => 'Crew',
-                'choice_label' => 'bandName'
+                'choice_label' => 'bandName',
+                'required' => false,
+                'placeholder' => ''
             ])
             ->add('pictureFile', FileType::class, [
                 'mapped' => false,

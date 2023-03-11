@@ -10,9 +10,9 @@
         <h3>Crews</h3>
         {% for band in concert.bands %}
             <div>
+                <a href="{{ path('app_band_show', {id: band.id}) }}">
                 <img src="{{ asset('images/bands/' ~ band.picture) }}" class="img-thumbnail"
                      alt="{{ band.bandName }}" style="width: 20rem">
-                <a href="{{ path('band_show', {id: band.id}) }}">
                     {{ band.bandName }}
                 </a>
             </div>
