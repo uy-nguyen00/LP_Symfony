@@ -20,7 +20,7 @@ class UserController extends AbstractController
     #[Route('/', name: 'user_account', methods: ['GET', 'POST'])]
     public function index(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
-        $user = new User($this->getUser());
+        $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
