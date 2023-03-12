@@ -54,6 +54,22 @@ class ConcertRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByBand($id): array
+    {
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT c.id, c.concertName, c.concertDate, c.status FROM App\Entity\Concert c 
+                JOIN c.bands b 
+                WHERE c.concertDate > CURRENT_DATE() 
+                    AND (c.status <> :status OR c.status IS NULL)
+                    AND b.id = :id
+                ORDER BY c.concertDate ASC
+                ')
+            ->setParameter('status', 'canceled')
+            ->setParameter('id', $id)
+            ->getResult();
+    }
+
 //    /**
 //     * @return Concert[] Returns an array of Concert objects
 //     */

@@ -36,6 +36,18 @@
                     {% endfor %}
                 </td>
             </tr>
+            <tr>
+                <th>Upcoming Concerts</th>
+                <td>
+                    {% for concert in concerts %}
+                        <span>
+                            <a href="{{ path('concert_show', {'id': concert.id}) }}">
+                                {{ concert.concertName }}
+                            </a>
+                        </span>
+                    {% endfor %}
+                </td>
+            </tr>
             </tbody>
         </table>
 

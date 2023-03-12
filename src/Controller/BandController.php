@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Band;
 use App\Form\BandType;
 use App\Repository\BandRepository;
+use App\Repository\ConcertRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,10 +47,13 @@ class BandController extends StandardController
     }
 
     #[Route('/{id}', name: 'app_band_show', methods: ['GET'])]
-    public function show(Band $band): Response
+    public function show(Band $band, ConcertRepository $concertRepository): Response
     {
+        $concerts = $concertRepository->findByBand($band->getId());
+        var_dump($concerts);
         return $this->render('band/show.html.twig', [
             'band' => $band,
+            'concerts' => $concerts
         ]);
     }
 
