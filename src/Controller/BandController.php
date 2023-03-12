@@ -50,7 +50,6 @@ class BandController extends StandardController
     public function show(Band $band, ConcertRepository $concertRepository): Response
     {
         $concerts = $concertRepository->findByBand($band->getId());
-        var_dump($concerts);
         return $this->render('band/show.html.twig', [
             'band' => $band,
             'concerts' => $concerts
