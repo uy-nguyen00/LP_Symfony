@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} All The Concerts {% endblock %}
+{% block title %} All Concerts {% endblock %}
 
 {% block body %}
     <div class="container">
+        <h1>All Concerts</h1>
         {% for concert in concerts %}
             <div>
                 <a href="{{ path('concert_show' , {id: concert.getId()}) }}">

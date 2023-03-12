@@ -11,6 +11,7 @@ class ArtistFixtures extends Fixture
     public const ARTIST_SEAN_LEW = 'sean-lew';
     public const ARTIST_ANTHONY_LEE = 'anthony-lee';
     public const ARTIST_BAM_MARTIN = 'bam-martin';
+    public const ARTIST_KEVIN_BREWER = 'kevin-brewer';
 
     public function load(ObjectManager $manager): void
     {
@@ -32,10 +33,17 @@ class ArtistFixtures extends Fixture
             ->setPicture('bammartin.jpeg');
         $manager->persist($artist3);
 
+        $artist4 = new Artist();
+        $artist4->setArtistName('Kevin Brewer')
+            ->setArtistTag('#kevinb')
+            ->setPicture('kevinbrewer.jpeg');
+        $manager->persist($artist4);
+
         $manager->flush();
 
         $this->addReference(self::ARTIST_SEAN_LEW, $artist1);
         $this->addReference(self::ARTIST_ANTHONY_LEE, $artist2);
         $this->addReference(self::ARTIST_BAM_MARTIN, $artist3);
+        $this->addReference(self::ARTIST_KEVIN_BREWER, $artist4);
     }
 }
