@@ -16,7 +16,7 @@ class ConcertController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     public function list(ManagerRegistry $doctrine): Response
     {
         // Exclude the concert with status "canceled"
-        $concerts = $doctrine->getRepository(Concert::class)->findBy(['status' => null]);
+        $concerts = $doctrine->getRepository(Concert::class)->findAll();
 
         if (!$concerts) {
             throw $this->createNotFoundException('There is no concert at the moment');
