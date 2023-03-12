@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Band;
+use App\Repository\ConcertRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,8 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     #[Route('/', name: 'home_index', methods: ['GET'])]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(ConcertRepository $concertRepository): Response
     {
-        return $this->render('home/index.html.twig');
+        $concerts = $concertRepository->findUpcoming();
+        return $this->render('home/index.html.twig', ['concerts' => $concerts]);
     }
 }

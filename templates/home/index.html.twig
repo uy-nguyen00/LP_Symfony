@@ -3,8 +3,42 @@
 {% block title %} Home {% endblock %}
 
 {% block body %}
-    <h1>Voila</h1>
-    <p>This is a Paragraph</p>
+    <div class="container">
+        <h1>Upcoming Concerts</h1>
 
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Concert Hall</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for concert in concerts %}
+                <tr>
+                    <td>{{ concert.id }}</td>
+                    <td>{{ concert.concertHallName }}</td>
+                    <td>{{ concert.concertName }}</td>
+                    <td>{{ concert.concertDate.format('d F Y') }}</td>
+                    <td>{{ concert.status }}</td>
+                    <td>
+                        <a href="{{ path('concert_show', {'id': concert.id}) }}">show</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('concert_update', {'id': concert.id}) }}">edit</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no upcoming concerts</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
+    </div>
 {% endblock %}

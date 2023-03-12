@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Concert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,20 @@ class ConcertRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findUpcoming(): array
+    {
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT c.id, ch.concertHallName, c.concertName, c.concertDate, c.status FROM App\Entity\Concert c 
+                JOIN c.concertHall ch 
+                WHERE c.concertDate > CURRENT_DATE() 
+                    AND (c.status <> :status OR c.status IS NULL)
+                ORDER BY c.concertDate ASC
+                ')
+            ->setParameter('status', 'canceled')
+            ->getResult();
     }
 
 //    /**
